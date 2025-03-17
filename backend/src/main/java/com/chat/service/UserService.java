@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -43,7 +44,10 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public List<User> findUsers(String query){
-        return userRepository.searchUsers(query);
+    public List<User> findUsers(User user, String query) {
+        List<User> users = userRepository.searchUsers(query);
+        return users.stream()
+                .filter(u -> !u.getUserId().equals(user.getUserId()))
+                .collect(Collectors.toList());
     }
 }

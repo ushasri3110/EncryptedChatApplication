@@ -7,16 +7,22 @@ import { updateUser } from '../../redux/auth/Action';
 import { Avatar } from '@mui/material';
 
 function ProfilePage({handleOpenCloseProfile}) {
+    const jwt=localStorage.getItem('jwt')
     const [flag,setFlag]=useState(false);
-    const [username,setUsername]=useState(null);
-    const [tempPicture,setTempPicture]=useState(null);
     const auth=useSelector(store=>store.auth)
+    const [username,setUsername]=useState(auth.reqUser?.fullName);
+    const [tempPicture,setTempPicture]=useState(null);
     const dispatch=useDispatch()
     const handleFlag=()=>{
         setFlag(true)
     }
     const handleCheckClick=()=>{
         setFlag(false)
+        const dataa={
+            jwt:jwt,
+            data:{fullName:username}
+        }
+        dispatch(updateUser(dataa))
     }
     const handleChange=(e)=>{
         setUsername(e.target.value)
@@ -35,7 +41,7 @@ function ProfilePage({handleOpenCloseProfile}) {
             setTempPicture(data.url.toString())
             const dataa={
                 userId:auth.reqUser.userId,
-                jwt:localStorage.getItem("jwt"),
+                jwt:jwt,
                 data:{profilePic:data.url.toString()}
             }
             dispatch(updateUser(dataa))

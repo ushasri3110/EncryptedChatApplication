@@ -34,7 +34,7 @@ export const login = (data) => async (dispatch) => {
         if (resData.jwt){
             localStorage.setItem('jwt', resData.jwt)
         }
-        // console.log(resData);
+        console.log(resData);
         dispatch({type: LOGIN, payload: resData})
     }
     catch (e) {

@@ -48,6 +48,7 @@ public class ChatService {
 
     public Chat createGroup(GroupChatRequest req,User reqUser) throws ChatException{
         Chat group=new Chat();
+        group.getUsers().add(reqUser);
         group.setGroup(true);
         group.setCreatedBy(reqUser);
         group.setChatImage(req.getChatImage());
@@ -57,6 +58,7 @@ public class ChatService {
             User user=userService.findUserById(userId);
             group.getUsers().add(user);
         }
+        System.out.println(group);
         return chatRepository.save(group);
     }
 

@@ -28,7 +28,7 @@ function Signup() {
         }
     },[jwt])
     useEffect(()=>{
-        if (auth.reqUser?.fullName){
+        if (auth.reqUser?.fullName || jwt!=null){
             setOpenSnackbar(true); 
             setTimeout(() => navigate('/'), 1000); 
         }

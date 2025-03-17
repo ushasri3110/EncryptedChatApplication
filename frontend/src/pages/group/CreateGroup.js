@@ -4,15 +4,21 @@ import SelectedMember from './SelectedMember';
 import ChatCard from '../chatcard/ChatCard';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import NewGroup from './NewGroup';
+import { searchUser } from '../../redux/auth/Action';
+import { useDispatch, useSelector } from 'react-redux';
 function CreateGroup({ handleOpenCloseGroup }) {
     const [newGroup, setNewGroup] = useState(false);
     const [groupMember, setGroupMember] = useState(new Set())
+    const dispatch = useDispatch();
+    const searchedUsers=useSelector(store=>store.auth.searchUser) || [];
     const [query, setQuery] = useState('');
+    const jwt=localStorage.getItem('jwt')
     const handleRemoveMember = () => {
-
+        
     }
     const handleSearch = (value) => {
-
+        dispatch(searchUser({ query: query, jwt }));
+        setQuery("")
     }
     return (
         <div className='w-full h-full'>
@@ -24,7 +30,7 @@ function CreateGroup({ handleOpenCloseGroup }) {
                         <p className='cursor-pointer font-semibold text-xl wrap-content'>Add Group Participants</p>
                     </div>
                     <div className='relative bg-white py-4 px-3'>
-                        <div className='flex space-x-2 flex-wrap space-y-1'>
+                        <div className='flex space-x-2 flex-wrap space-y-1 items-center justify-center'>
                             {
                                 groupMember.size > 0 &&
                                 Array.from(groupMember).map((item) => (
@@ -41,13 +47,13 @@ function CreateGroup({ handleOpenCloseGroup }) {
                             placeholder='Search' value={query} />
                     </div>
                     <div className='bg-white overflow-y-scroll h-[40.2vh]'>
-                        {query && [1, 1, 1, 1, 1].map((item) => <div onClick={() => {
+                        {query && Array.isArray(searchedUsers) && searchedUsers .map((item) => <div onClick={() => {
                             groupMember.add(item)
                             setGroupMember(groupMember)
                             setQuery('')
-                        }} key={item?.id}>
+                        }} key={item?.userId}>
                             <hr />
-                            <ChatCard />
+                            <ChatCard name={item.fullName} image={item.profilePic}/>
                         </div>)}
                     </div>
 
@@ -61,7 +67,7 @@ function CreateGroup({ handleOpenCloseGroup }) {
 
                 </div>
             }
-            {newGroup && <NewGroup />}
+            {newGroup && <NewGroup groupMember={groupMember} handleOpenCloseGroup={handleOpenCloseGroup}/>}
         </div>
     )
 }

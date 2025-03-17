@@ -24,8 +24,9 @@ public class UserController {
     }
 
     @GetMapping("/findUsers/{query}")
-    public ResponseEntity<List<User>> searchUserHandler(@PathVariable("query") String query){
-        List<User> users=userService.findUsers(query);
+    public ResponseEntity<List<User>> searchUserHandler(@RequestHeader("Authorization") String jwt,@PathVariable("query") String query){
+        User user=userService.findUserProfile(jwt);
+        List<User> users=userService.findUsers(user,query);
         return new ResponseEntity<>(users,HttpStatus.OK);
     }
 

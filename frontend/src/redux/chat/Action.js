@@ -3,6 +3,7 @@ import { CREATE_CHAT, CREATE_GROUP, GET_USERS_CHAT } from "./ActionType";
 
 export const createChat=(chatData)=>async(dispatch)=>{
     try {
+        console.log(chatData)
         const response = await fetch(`${BASE_API_URL}/api/chats/createSingleChat`, {
             method: 'POST',
             headers: {
@@ -12,7 +13,7 @@ export const createChat=(chatData)=>async(dispatch)=>{
             body: JSON.stringify(chatData.userId)
         })
         const resData=await response.json();
-        // console.log(resData);
+        console.log(resData);
         dispatch({type: CREATE_CHAT, payload: resData})
     }
     catch (e) {
@@ -23,6 +24,7 @@ export const createChat=(chatData)=>async(dispatch)=>{
 
 export const createGroupChat=(chatData)=>async(dispatch)=>{
     try {
+        console.log(chatData)
         const response = await fetch(`${BASE_API_URL}/api/chats/createGroupChat`, {
             method: 'POST',
             headers: {
@@ -32,8 +34,9 @@ export const createGroupChat=(chatData)=>async(dispatch)=>{
             body: JSON.stringify(chatData.data)
         })
         const resData=await response.json();
-        // console.log(resData);
+        console.log(resData);
         dispatch({type: CREATE_GROUP, payload: resData})
+        dispatch(getUserChats(chatData.jwt))
     }
     catch (e) {
         // console.log(e);
