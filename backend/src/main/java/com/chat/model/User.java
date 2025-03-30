@@ -1,10 +1,7 @@
 package com.chat.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +12,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Table(name = "user")
 public class User {
     @Override
     public boolean equals(Object o) {
@@ -30,10 +28,14 @@ public class User {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     private String fullName;
     private String email;
     private String profilePic;
     private String password;
+    @Column(length = 2048)
+    private String publicKey;
+    @Column(length = 4096)
+    private String encryptedPrivateKey;
 }

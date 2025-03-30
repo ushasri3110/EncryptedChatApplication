@@ -37,4 +37,10 @@ public class UserController {
         return new ResponseEntity<>(updatedUser,HttpStatus.ACCEPTED);
     }
 
+    @GetMapping("/users/{userId}/public-key")
+    public String getPublicKey(@PathVariable Long userId) {
+        User user = userService.findUserById(userId);
+        return user.getPublicKey();
+    }
+
 }

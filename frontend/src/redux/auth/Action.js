@@ -13,6 +13,7 @@ export const register = (data) => async (dispatch) => {
         const resData=await response.json();
         if (resData.jwt){
             localStorage.setItem('jwt', resData.jwt)
+            localStorage.setItem('privateKey', resData.privateKey);
         }
         dispatch({type: REGISTER, payload: resData})
     }

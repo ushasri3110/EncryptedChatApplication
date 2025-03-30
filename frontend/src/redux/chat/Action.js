@@ -15,6 +15,7 @@ export const createChat=(chatData)=>async(dispatch)=>{
         const resData=await response.json();
         console.log(resData);
         dispatch({type: CREATE_CHAT, payload: resData})
+        dispatch(getUserChats(chatData.jwt))
     }
     catch (e) {
         // console.log(e);
